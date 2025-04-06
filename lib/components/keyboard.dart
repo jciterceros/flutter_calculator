@@ -23,24 +23,28 @@ class Keyboard extends StatelessWidget {
             Button(buttonText: "mod", color: Button.DARK, cb: cb),
             Button(buttonText: "/", color: Button.OPERATORS, cb: cb),
           ]),
+          SizedBox(height: 1),
           ButtonRow([
             Button(buttonText: "7", cb: cb),
             Button(buttonText: "8", cb: cb),
             Button(buttonText: "9", cb: cb),
             Button(buttonText: "x", color: Button.OPERATORS, cb: cb),
           ]),
+          SizedBox(height: 1),
           ButtonRow([
             Button(buttonText: "4", cb: cb),
             Button(buttonText: "5", cb: cb),
             Button(buttonText: "6", cb: cb),
             Button(buttonText: "-", color: Button.OPERATORS, cb: cb),
           ]),
+          SizedBox(height: 1),
           ButtonRow([
             Button(buttonText: "1", cb: cb),
             Button(buttonText: "2", cb: cb),
             Button(buttonText: "3", cb: cb),
             Button(buttonText: "+", color: Button.OPERATORS, cb: cb),
           ]),
+          SizedBox(height: 1),
           ButtonRow([
             Button(buttonText: "0", bigButton: true, cb: cb),
             Button(buttonText: ".", cb: cb),

@@ -12,7 +12,13 @@ class ButtonRow extends StatelessWidget {
       flex: 1,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: buttons,
+        children: buttons.fold(<Widget>[], (acc, button) {
+          if (acc.isNotEmpty) {
+            acc.add(const SizedBox(width: 1));
+          }
+          acc.add(button);
+          return acc;
+        }),
       ),
     );
   }

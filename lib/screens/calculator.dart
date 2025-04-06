@@ -14,7 +14,13 @@ class Calculator extends StatefulWidget {
 class _CalculatorState extends State<Calculator> {
   final Memory memory = Memory();
 
-  _onButtonPressed(String command) {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
+  void _handleButtonPress(String command) {
     setState(() {
       memory.applyCommand(command);
     });
@@ -22,13 +28,11 @@ class _CalculatorState extends State<Calculator> {
 
   @override
   Widget build(BuildContext context) {
-    // Force portrait mode
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
       home: Column(
         children: <Widget>[
           Display(displayText: memory.value),
-          Keyboard(cb: _onButtonPressed),
+          Keyboard(cb: _handleButtonPress),
         ],
       ),
     );

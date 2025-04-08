@@ -1,7 +1,8 @@
+import '../interfaces/i_memory.dart';
 import '../entities/calculator_entity.dart';
 import '../value_objects/operation.dart';
 
-class Memory {
+class Memory implements IMemory {
   static const operations = Operation.validOperations;
   CalculatorEntity _calculatorEntity = CalculatorEntity(
     buffer: [0.0, 0.0],
@@ -12,7 +13,15 @@ class Memory {
     lastCommand: '',
   );
 
+  @override
   void applyCommand(String command) {
+    if (command.isEmpty ||
+        (!operations.contains(command) &&
+            command != 'AC' &&
+            double.tryParse(command) == null)) {
+      throw ArgumentError('Comando inválido: $command');
+    }
+
     if (_shouldReplaceOperation(command)) {
       _calculatorEntity = _calculatorEntity.copyWith(operation: command);
       return;
@@ -120,5 +129,6 @@ class Memory {
     _calculatorEntity = _calculatorEntity.reset();
   }
 
+  @override
   String get value => _calculatorEntity.displayValue;
 }

@@ -15,13 +15,6 @@ class Memory implements IMemory {
 
   @override
   void applyCommand(String command) {
-    if (command.isEmpty ||
-        (!operations.contains(command) &&
-            command != 'AC' &&
-            double.tryParse(command) == null)) {
-      throw ArgumentError('Comando inválido: $command');
-    }
-
     if (_shouldReplaceOperation(command)) {
       _calculatorEntity = _calculatorEntity.copyWith(operation: command);
       return;
@@ -83,6 +76,7 @@ class Memory implements IMemory {
         wipeValue ? emptyValue : _calculatorEntity.displayValue;
 
     final newValue = currentValue + digit;
+
     final newBuffer = List<double>.from(_calculatorEntity.buffer);
     newBuffer[_calculatorEntity.currentBufferIndex] =
         double.tryParse(newValue) ?? 0.0;

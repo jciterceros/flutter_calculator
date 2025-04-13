@@ -14,9 +14,9 @@ void main() {
     test('MockMemory deve implementar applyCommand', () {
       final memory = MockMemory();
       expect(
-        memory.applyCommand != null,
-        isTrue,
-        reason: 'applyCommand deve ser um método',
+        () => memory.applyCommand('test'),
+        returnsNormally,
+        reason: 'applyCommand deve ser um método funcional',
       );
     });
 

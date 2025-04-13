@@ -1,0 +1,18 @@
+@startuml "Calculator"
+package "App" {
+  class MaterialApp {
+    - title: String
+    - debugShowCheckedModeBanner: bool
+    - theme: ThemeData
+    - home: Widget
+    + MaterialApp({String title, bool debugShowCheckedModeBanner, ThemeData theme, Widget home})
+  }
+
+  class ThemeData {
+    + ThemeData.dark(): ThemeData
+  }
+
+  MaterialApp --> Calculator
+  MaterialApp --> ThemeData
+}
+@enduml

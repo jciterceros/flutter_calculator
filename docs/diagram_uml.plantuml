@@ -1,0 +1,182 @@
+@startuml "Calculator"
+package "Calculator" {
+
+class Operation {
+  - static const validOperations : List<String>
+  - String value
+  + Operation(String value)
+  + bool isArithmeticOperation()
+  + bool isValid()
+  + bool isEqualOperation()
+  + String toString()
+  + bool operator ==(Object other)
+  + int get hashCode
+}
+
+interface IMemory {
+  + void applyCommand(String command)
+  + String get value
+}
+
+class Memory {
+  - static const operations : List<String>
+  - CalculatorEntity _calculatorEntity
+  + void applyCommand(String command)
+  + String get value
+  - bool _shouldReplaceOperation(String command)
+  - void _setOperation(Operation operation)
+  - void _addDigit(String digit)
+  - double _calculate()
+  - double _modulo()
+  - double _divide()
+  - double _multiply()
+  - double _subtract()
+  - double _add()
+  - void _allClear()
+}
+
+Memory --> IMemory
+Memory --> CalculatorEntity
+Memory --> Operation
+
+class Calculator extends StatelessWidget {
+  - memory: Memory
+  + Calculator({required Memory memory})
+  + build(BuildContext context): Widget
+}
+
+Memory --> Calculator
+Calculator <|-- StatelessWidget
+
+class CalculatorEntity {
+  - List<double> buffer
+  - int currentBufferIndex
+  - String operation
+  - String displayValue
+  - bool wipeValue
+  - String lastCommand
+
+  + copyWith()
+  + reset()
+  + updateBufferAndDisplay(double value, int bufferIndex)
+  + formatValue(double value): String
+}
+
+class MemoryDataSource {
+  - Memory _memory
+  + String applyCommand(String command)
+}
+
+MemoryDataSource --> Memory : uses
+MemoryDataSource --> CalculatorEntity : indirectly uses
+
+interface CalculatorRepository {
+  + String calculate(String expression)
+}
+
+class CalculatorRepositoryImpl {
+  - MemoryDataSource _memoryDataSource
+  + String calculate(String expression)
+}
+
+CalculatorRepositoryImpl --> CalculatorRepository : implements
+CalculatorRepositoryImpl --> MemoryDataSource : uses
+
+}
+
+package "Widgets UI" {
+
+class StatelessWidget {
+  + build(BuildContext context): Widget
+}
+
+class Button {
+  - static const Color darkGray
+  - static const Color defaultGray
+  - static const Color orangeOperator
+  - final String buttonText
+  - final bool bigButton
+  - final Color color
+  - final void Function(String) cb
+  - static const EdgeInsets buttonPadding
+  - static const TextStyle buttonTextStyle
+'   + Button({Key? key, required String buttonText, bool bigButton = false, Color color = defaultGray, required void Function(String) cb})
+  + Widget build(BuildContext context)
+}
+
+Button ..|> StatelessWidget : extends
+
+class ButtonRow {
+  - final List<Button> buttons
+  - final double spacing
+  + ButtonRow(List<Button> buttons, {double spacing = 1.0, Key? key})
+  + Widget build(BuildContext context)
+  - List<Widget> _buildChildren(double effectiveSpacing)
+}
+
+ButtonRow ..|> StatelessWidget : extends
+ButtonRow o-- Button : contains
+
+class Keyboard {
+  - static const double _keyboardHeight
+  - static const double _buttonSpacing
+  - Button _buildButton({required String text, bool bigButton = false, Color? color})
+  + Keyboard({Key? key, required void Function(String) cb})
+  + Widget build(BuildContext context)
+}
+
+Keyboard ..|> StatelessWidget : extends
+Keyboard o-- ButtonRow : contains
+Keyboard o-- Button : creates
+
+class AutoSizeText {
+  - String text
+  - TextStyle style
+  - int maxLines
+  - double minFontSize
+  - double maxFontSize
+  + AutoSizeText()
+}
+
+class Display {
+  - static const Color _backgroundColor
+  - static const EdgeInsets _padding
+  - static const double _minFontSize
+  - static const double _maxFontSize
+  - static const int _maxLines
+  - static TextStyle _getTextStyle()
+  + Display({Key? key, String displayText = "0"})
+  + Widget build(BuildContext context)
+}
+
+Display ..|> StatelessWidget : extends
+Display o-- AutoSizeText : contains
+
+class Calculator extends StatelessWidget {
+  - Memory memory
+  + Calculator({required Memory memory})
+  + build(BuildContext context): Widget
+}
+
+  Calculator <|-- StatelessWidget
+  Calculator o-- Keyboard : contains
+  Calculator o-- Display : contains
+}
+
+package "App" {
+  class MaterialApp {
+    - title: String
+    - debugShowCheckedModeBanner: bool
+    - theme: ThemeData
+    - home: Widget
+    + MaterialApp({String title, bool debugShowCheckedModeBanner, ThemeData theme, Widget home})
+  }
+
+  class ThemeData {
+    + ThemeData.dark(): ThemeData
+  }
+
+  MaterialApp --> Calculator
+  MaterialApp --> ThemeData
+}
+@enduml

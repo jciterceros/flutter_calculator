@@ -1,3 +1,4 @@
+import 'package:flutter_calculator/domain/entities/calculator_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_calculator/domain/models/memory.dart';
 
@@ -119,5 +120,15 @@ void main() {
     test('Deve iniciar com valor 0', () {
       expect(memory.value, '0');
     });
+
+    test(
+      'Deve retornar o valor do buffer[0] quando o comando é desconhecido',
+      () {
+        memory.applyCommand('10');
+        memory.applyCommand('desconhecido');
+
+        expect(memory.value, '10desconhecido');
+      },
+    );
   });
 }

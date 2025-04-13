@@ -1,7 +1,7 @@
-import '../../domain/repositories/calculator_repository.dart';
+import 'package:flutter_calculator/infrastructure/repositories/calculator_repository_impl.dart';
 
 class CalculateExpression {
-  final CalculatorRepository _repository;
+  final CalculatorRepositoryImpl _repository;
 
   CalculateExpression(this._repository);
 

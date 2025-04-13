@@ -9,6 +9,7 @@ class Keyboard extends StatelessWidget {
 
   static const double _keyboardHeight = 500;
   static const double _buttonSpacing = 1;
+  static double get buttonSpacing => _buttonSpacing;
 
   Button _buildButton({
     required String text,
